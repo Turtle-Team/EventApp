@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.turtleteam.eventapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -47,7 +47,16 @@ android {
 dependencies {
 
     implementation(project(Modules.presentation))
+    implementation(project(":core_navigation"))
+    implementation(project(":feature_one:impl"))
+    implementation(project(":feature_one:api"))
+
+
     implementation(Dependencies.JetpackCompose.runtime)
+    implementation(Dependencies.JetpackCompose.navigation)
+    implementation(Dependencies.JetpackCompose.activityCompose)
+    implementation(Dependencies.DI.koin)
+
 
 //    implementation(Dependencies.Android.androidCore)
 

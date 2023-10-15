@@ -14,9 +14,8 @@
         android:theme="@style/Theme.EventApp"
         tools:targetApi="31">
         <activity
-            android:name="com.turtleteam.presentation.MainActivity"
+            android:name="com.turtleteam.eventapp.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.EventApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

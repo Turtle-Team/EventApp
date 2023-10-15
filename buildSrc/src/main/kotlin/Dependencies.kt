@@ -14,7 +14,7 @@ object Versions {
     }
 
     object Android {
-        const val androidCore = "1.8.0"
+        const val androidCore = "1.12.0"
         const val lifecycle = "2.6.2"
         const val appcompat = "1.6.1"
     }
@@ -24,6 +24,7 @@ object Versions {
         const val activityCompose = "1.5.3"
         const val material = "1.1.2"
         const val toolingPreview = "1.5.0-beta01"
+        const val navigation = "0.32.0"
     }
 }
 
@@ -31,7 +32,7 @@ object Versions {
 object Dependencies {
 
     object DI {
-        val koin by lazy { "io.insert-koin:koin-core:${Versions.DI.koin}" }
+        val koin by lazy { "io.insert-koin:koin-androidx-compose:${Versions.DI.koin}" }
     }
 
     object Android {
@@ -48,6 +49,7 @@ object Dependencies {
         val material by lazy { "androidx.compose.material3:material3:${Versions.JetpackCompose.material}" }
         val activityCompose by lazy { "androidx.activity:activity-compose:${Versions.JetpackCompose.activityCompose}" }
         val runtime by lazy { "androidx.compose.runtime:runtime:${Versions.JetpackCompose.ui}" }
+        val navigation by lazy { "com.google.accompanist:accompanist-navigation-animation:${Versions.JetpackCompose.navigation}" }
     }
 
     object Data {
