@@ -1,4 +1,4 @@
-package com.turtleteam.impl
+package com.turtleteam.impl.navigation
 
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController

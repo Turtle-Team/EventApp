@@ -50,11 +50,15 @@ dependencies {
     implementation(project(":core_navigation"))
     implementation(project(":feature_one:impl"))
     implementation(project(":feature_one:api"))
-
+    implementation(project(":feature_two:impl"))
+    implementation(project(":feature_two:api"))
+    implementation(project(":feature_three:impl"))
+    implementation(project(":feature_three:api"))
 
     implementation(Dependencies.JetpackCompose.runtime)
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.JetpackCompose.activityCompose)
+    implementation(Dependencies.JetpackCompose.material)
     implementation(Dependencies.DI.koin)
 
 
