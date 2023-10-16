@@ -4,5 +4,5 @@ import com.turtleteam.core_navigation.NavigationApi
 
 interface AccountNavigation : NavigationApi {
 
-    val baseUrl: String
+    val baseRoute: String
 }

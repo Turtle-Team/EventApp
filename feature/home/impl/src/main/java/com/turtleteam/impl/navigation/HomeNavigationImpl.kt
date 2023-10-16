@@ -12,14 +12,14 @@ import org.koin.core.parameter.parametersOf
 
 class HomeNavigationImpl : HomeNavigation {
 
-    override val baseUrl: String = "home"
+    override val baseRoute: String = "home"
 
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route = baseUrl) {
+        navGraphBuilder.composable(route = baseRoute) {
             val navigator =
                 koinInject<HomeNavigator>(parameters = { parametersOf(navController) })
             HomeScreen(

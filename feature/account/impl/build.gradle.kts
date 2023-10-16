@@ -42,6 +42,9 @@ dependencies {
     implementation(project(":feature:account:api"))
     implementation(project(Modules.core_navigation))
 
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.2")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.2")
+
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)

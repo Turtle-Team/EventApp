@@ -9,10 +9,10 @@ class HomeNavigator (
     private val accountNavigation: AccountNavigation,
     private val navController: NavController
 ) {
-    private val homeUrl = homeNavigation.baseUrl
-    private val accountUrl = accountNavigation.baseUrl
+    private val baseRoute = homeNavigation.baseRoute
+    private val accountRoute = accountNavigation.baseRoute
 
     fun navigateToAuth() {
-        navController.navigate("$accountUrl/auth")
+        navController.navigate("$accountRoute/auth")
     }
 }

@@ -12,14 +12,14 @@ import org.koin.core.parameter.parametersOf
 
 class EventNavigationImpl : EventNavigation {
 
-    override val baseUrl: String = "event"
+    override val baseRoute: String = "event"
 
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route = baseUrl) {
+        navGraphBuilder.composable(route = baseRoute) {
             val navigator =
                 koinInject<EventNavigator>(parameters = { parametersOf(navController) })
             EventScreen(

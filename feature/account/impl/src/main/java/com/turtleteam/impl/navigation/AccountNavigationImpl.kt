@@ -14,26 +14,28 @@ import org.koin.core.parameter.parametersOf
 
 class AccountNavigationImpl : AccountNavigation {
 
-    override val baseUrl: String = "account"
+    override val baseRoute: String = "account"
 
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route = "$baseUrl/auth") {
+        navGraphBuilder.composable(route = "$baseRoute/auth") {
             val navigator =
                 koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
             AuthScreen(
                 viewModel = koinViewModel(parameters = { parametersOf(navigator) })
             )
         }
-        navGraphBuilder.composable(route = "$baseUrl/register") {
-            val navigator =
-                koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
-            RegisterScreen(
-                viewModel = koinViewModel(parameters = { parametersOf(navigator) })
-            )
+        navGraphBuilder.navigation(startDestination = "$baseRoute/auth", route = baseRoute) {
+            composable(route = "$baseRoute/register") {
+                val navigator =
+                    koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+                RegisterScreen(
+                    viewModel = koinViewModel(parameters = { parametersOf(navigator) })
+                )
+            }
         }
     }
 }

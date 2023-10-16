@@ -7,5 +7,5 @@ class EventNavigator (
     private val eventNavigation: EventNavigation,
     private val navController: NavController
 ) {
-    private val baseUrl = eventNavigation.baseUrl
+    private val baseRoute = eventNavigation.baseRoute
 }

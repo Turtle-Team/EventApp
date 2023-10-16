@@ -12,14 +12,14 @@ import org.koin.core.parameter.parametersOf
 
 class ProfileNavigationImpl : ProfileNavigation {
 
-    override val baseUrl: String = "profile"
+    override val baseRoute: String = "profile"
 
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route = baseUrl) {
+        navGraphBuilder.composable(route = baseRoute) {
             val navigator =
                 koinInject<ProfileNavigator>(parameters = { parametersOf(navController) })
             ProfileScreen(

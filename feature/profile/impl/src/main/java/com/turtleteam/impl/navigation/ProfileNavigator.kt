@@ -7,5 +7,5 @@ class ProfileNavigator (
     private val profileNavigation: ProfileNavigation,
     private val navController: NavController
 ) {
-    private val baseUrl = profileNavigation.baseUrl
+    private val baseRoute = profileNavigation.baseRoute
 }

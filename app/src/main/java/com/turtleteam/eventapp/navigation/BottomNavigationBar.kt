@@ -2,6 +2,7 @@ package com.turtleteam.eventapp.navigation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -54,37 +55,39 @@ fun BottomNavigationBar(
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route ?: routes.last()
 
-        NavigationBar {
-            navigationItems.forEach { item ->
-                NavigationBarItem(
-                    selected = currentRoute == item.route,
-                    label = {
-                        Text(
-                            item.label,
-                            color = if (currentRoute == item.route) Color(0xFF1D192B) else Color(
-                                0xFF49454F
+        if (routes.contains(currentRoute)) {
+            NavigationBar {
+                navigationItems.forEach { item ->
+                    NavigationBarItem(
+                        selected = currentRoute == item.route,
+                        label = {
+                            Text(
+                                item.label,
+                                color = if (currentRoute == item.route) Color(0xFF1D192B) else Color(
+                                    0xFF49454F
+                                )
                             )
-                        )
-                    },
-                    onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.id) {
-                                saveState = true
+                        },
+                        onClick = {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = item.icon),
-                            contentDescription = "",
-                            tint = if (currentRoute == item.route) Color(0xFF1D192B) else Color(
-                                0xFF49454F
-                            ),
-                            modifier = Modifier.size(24.dp)
-                        )
-                    })
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = item.icon),
+                                contentDescription = "",
+                                tint = if (currentRoute == item.route) Color(0xFF1D192B) else Color(
+                                    0xFF49454F
+                                ),
+                                modifier = Modifier.size(24.dp)
+                            )
+                        })
+                }
             }
         }
     }
