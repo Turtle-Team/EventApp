@@ -46,17 +46,22 @@ android {
 
 dependencies {
 
-    implementation(project(Modules.presentation))
+    implementation(project(Modules.core_navigation))
+    implementation(project(":feature:account:api"))
+    implementation(project(":feature:account:impl"))
+
+    implementation(project(":feature:home:api"))
+    implementation(project(":feature:home:impl"))
+
+    implementation(project(":feature:event:api"))
+    implementation(project(":feature:event:impl"))
+
+    implementation(project(":feature:profile:api"))
+    implementation(project(":feature:profile:impl"))
+
     implementation(Dependencies.JetpackCompose.runtime)
-
-//    implementation(Dependencies.Android.androidCore)
-
-//    implementation 'androidx.core:core-ktx:+'
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-//    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
-//    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-//    debugImplementation 'androidx.compose.ui:ui-tooling'
-//    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation(Dependencies.JetpackCompose.navigation)
+    implementation(Dependencies.JetpackCompose.activityCompose)
+    implementation(Dependencies.JetpackCompose.material)
+    implementation(Dependencies.DI.koin)
 }
