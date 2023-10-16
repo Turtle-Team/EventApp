@@ -16,6 +16,7 @@ fun MainNavigationScreen(navController: NavHostController) {
     val homeFeature: HomeNavigation = koinInject()
     val eventFeature: EventNavigation = koinInject()
     val profileFeature: ProfileNavigation = koinInject()
+    val accountFeature: ProfileNavigation = koinInject()
 
     BottomNavigationBar(
         screen = {
@@ -27,6 +28,7 @@ fun MainNavigationScreen(navController: NavHostController) {
                 register(homeFeature, navController, Modifier)
                 register(eventFeature, navController, Modifier)
                 register(profileFeature, navController, Modifier)
+                register(accountFeature, navController, Modifier)
             }
         },
         routes = listOf(homeFeature.baseUrl, eventFeature.baseUrl, profileFeature.baseUrl),

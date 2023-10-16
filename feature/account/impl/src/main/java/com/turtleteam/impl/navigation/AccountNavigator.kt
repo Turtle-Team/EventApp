@@ -10,6 +10,7 @@ class AccountNavigator (
     private val navController: NavController
 ) {
     private val baseUrl = accountNavigation.baseUrl
+
     fun navigateToRegister() {
         navController.navigate("$baseUrl/$REGISTER_URL")
     }
