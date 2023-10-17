@@ -23,6 +23,7 @@ class EventNavigationImpl : EventNavigation {
             val navigator =
                 koinInject<EventNavigator>(parameters = { parametersOf(navController) })
             EventScreen(
+                modifier = modifier,
                 viewModel = koinViewModel(parameters = { parametersOf(navigator) })
             )
         }

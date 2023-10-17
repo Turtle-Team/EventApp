@@ -1,5 +1,6 @@
 package com.turtleteam.eventapp.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -46,13 +47,12 @@ fun MainNavigationScreen(navController: NavHostController) {
     BottomNavigationBar(
         screen = {
             NavHost(
-                modifier = Modifier.weight(1f),
                 navController = navController,
                 startDestination = homeFeature.baseRoute
             ) {
-                register(homeFeature, navController, Modifier)
-                register(eventFeature, navController, Modifier)
-                register(profileFeature, navController, Modifier)
+                register(homeFeature, navController, Modifier.padding(bottom = it))
+                register(eventFeature, navController, Modifier.padding(bottom = it))
+                register(profileFeature, navController, Modifier.padding(bottom = it))
                 register(accountFeature, navController, Modifier)
             }
         },

@@ -55,7 +55,9 @@ import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(viewModel: RegisterViewModel) {
+fun RegisterScreen(
+    modifier: Modifier = Modifier,
+    viewModel: RegisterViewModel) {
 
     val state = viewModel.state.collectAsState()
 
@@ -66,7 +68,7 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection).then(modifier),
         topBar = {
             LargeTopAppBar(
                 title = { Text(text = "Регистрация") },
