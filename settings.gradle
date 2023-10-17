@@ -36,3 +36,4 @@ include ':feature:event:impl'
 include(":feature:profile")
 include ':feature:profile:api'
 include ':feature:profile:impl'
+include ':core_view'

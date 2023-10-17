@@ -18,6 +18,7 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,7 +44,10 @@ import com.turtleteam.impl.presentation.auth.viewModel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AuthScreen(viewModel: AuthViewModel) {
+fun AuthScreen(
+    modifier: Modifier = Modifier,
+    viewModel: AuthViewModel
+) {
 
     val state = viewModel.state.collectAsState()
 
@@ -53,12 +57,15 @@ fun AuthScreen(viewModel: AuthViewModel) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Color.White)
+            .then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LargeTopAppBar(
             title = { Text(text = "Авторизация") },
-            modifier = Modifier.background(Color(0xFFF3EDF7)) //TODO fix hardcode
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color(0xFFF3EDF7)
+            ),//TODO fix hardcode
         )
 
         Column(
@@ -79,14 +86,15 @@ fun AuthScreen(viewModel: AuthViewModel) {
                 placeholder = { Text("Введите логин или почту") },
                 modifier = Modifier
                     .fillMaxWidth()
-                )
+            )
 
             OutlinedTextField(
                 value = state.value.passwordText,
                 visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
                 trailingIcon = {
                     IconButton(onClick = { passwordHidden = !passwordHidden }) {
-                        val iconPainter = painterResource(id = if (passwordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
+                        val iconPainter =
+                            painterResource(id = if (passwordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
                         Icon(painter = iconPainter, contentDescription = null)
                     }
                 },

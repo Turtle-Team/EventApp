@@ -23,6 +23,7 @@ class ProfileNavigationImpl : ProfileNavigation {
             val navigator =
                 koinInject<ProfileNavigator>(parameters = { parametersOf(navController) })
             ProfileScreen(
+                modifier = modifier,
                 viewModel = koinViewModel(parameters = { parametersOf(navigator) })
             )
         }

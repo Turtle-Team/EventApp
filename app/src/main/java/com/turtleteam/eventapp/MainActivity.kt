@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.navigation.compose.rememberNavController
+import com.turtleteam.core_view.theme.EventAppTheme
 import com.turtleteam.eventapp.navigation.MainNavigationScreen
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            MaterialTheme {
+            EventAppTheme {
                 MainNavigationScreen(navController = navController)
             }
         }
