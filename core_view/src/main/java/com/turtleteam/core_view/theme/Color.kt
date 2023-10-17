@@ -1,4 +1,4 @@
-package com.turtleteam.presentation.ui.theme
+package com.turtleteam.core_view.theme
 
 import androidx.compose.ui.graphics.Color
 

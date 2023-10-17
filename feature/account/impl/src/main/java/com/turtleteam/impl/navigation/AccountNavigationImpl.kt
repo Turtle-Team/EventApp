@@ -21,14 +21,14 @@ class AccountNavigationImpl : AccountNavigation {
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route = "$baseRoute/auth") {
-            val navigator =
-                koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
-            AuthScreen(
-                viewModel = koinViewModel(parameters = { parametersOf(navigator) })
-            )
-        }
         navGraphBuilder.navigation(startDestination = "$baseRoute/auth", route = baseRoute) {
+            composable(route = "$baseRoute/auth") {
+                val navigator =
+                    koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+                AuthScreen(
+                    viewModel = koinViewModel(parameters = { parametersOf(navigator) })
+                )
+            }
             composable(route = "$baseRoute/register") {
                 val navigator =
                     koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
