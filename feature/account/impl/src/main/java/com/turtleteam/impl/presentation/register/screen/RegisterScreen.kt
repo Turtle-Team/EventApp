@@ -50,6 +50,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.api.data.api.model.UserDTOReceive
+import com.turtleteam.core_view.snackbar.SnackbarView
 import com.turtleteam.impl.R
 import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
 
@@ -68,7 +70,9 @@ fun RegisterScreen(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection).then(modifier),
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .then(modifier),
         topBar = {
             LargeTopAppBar(
                 title = { Text(text = "Регистрация") },
@@ -202,8 +206,12 @@ fun RegisterScreen(
                         )
                     }
 
-
-                    Button(onClick = { }) {
+                    Button(onClick = {
+                        viewModel.onRegisterClick(UserDTOReceive(
+                            login = state.value.loginText,
+                            password = state.value.passwordText
+                        ))
+                    }) {
                         Text(text = "Далее", modifier = Modifier.padding(horizontal = 16.dp))
                     }
                 }

@@ -41,10 +41,15 @@ dependencies {
 
     implementation(project(":feature:account:api"))
     implementation(project(Modules.core_navigation))
+    implementation(project(Modules.core_view))
+    implementation(project(Modules.core_data))
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.2")
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.2")
 
+    implementation("com.google.guava:guava:32.1.3-jre")
+
+    implementation(Dependencies.Data.ktorCore)
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)

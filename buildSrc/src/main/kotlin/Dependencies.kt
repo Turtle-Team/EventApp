@@ -34,6 +34,10 @@ object Dependencies {
         val koin by lazy { "io.insert-koin:koin-androidx-compose:${Versions.DI.koin}" }
     }
 
+    object Kotlin {
+        val kotlinxSerialization by lazy { "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.Kotlin.kotlinxSerialization}" }
+    }
+
     object Android {
         val androidCore by lazy { "androidx.core:core-ktx:${Versions.Android.androidCore}" }
         val lifecycle by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Android.lifecycle}" }
@@ -52,8 +56,10 @@ object Dependencies {
     }
 
     object Data {
-        val ktorHttpClient by lazy { "io.ktor:ktor-client-okhttp:${Versions.Network.ktor}" }
         val ktorCore by lazy { "io.ktor:ktor-client-core:${Versions.Network.ktor}" }
+        val ktorLogging by lazy { "io.ktor:ktor-client-logging:${Versions.Network.ktor}" }
+        val ktorContentNegotiation by lazy { "io.ktor:ktor-server-content-negotiation:${Versions.Network.ktor}" }
+        val ktorJson by lazy { "io.ktor:ktor-serialization-kotlinx-json:${Versions.Network.ktor}" }
     }
 
     object Test {

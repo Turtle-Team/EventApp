@@ -48,6 +48,7 @@ dependencies {
 
     implementation(project(Modules.core_navigation))
     implementation(project(Modules.core_view))
+    implementation(project(Modules.core_data))
 
     implementation(project(":feature:account:api"))
     implementation(project(":feature:account:impl"))
@@ -65,5 +66,11 @@ dependencies {
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.JetpackCompose.activityCompose)
     implementation(Dependencies.JetpackCompose.material)
-    implementation(Dependencies.DI.koin)
+    implementation("io.insert-koin:koin-android:3.3.2")
+    implementation("io.insert-koin:koin-androidx-compose:3.4.1")
+    implementation(Dependencies.Data.ktorCore)
+    implementation(Dependencies.Data.ktorLogging)
+    implementation(Dependencies.Data.ktorContentNegotiation)
+    implementation(Dependencies.Data.ktorJson)
+    implementation(Dependencies.Kotlin.kotlinxSerialization)
 }

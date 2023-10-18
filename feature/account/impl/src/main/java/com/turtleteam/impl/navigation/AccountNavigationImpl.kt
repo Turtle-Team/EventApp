@@ -13,6 +13,7 @@ import androidx.navigation.navigation
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.impl.presentation.auth.screen.AuthScreen
 import com.turtleteam.impl.presentation.register.screen.RegisterScreen
+import io.ktor.client.HttpClient
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
@@ -60,9 +61,10 @@ class AccountNavigationImpl : AccountNavigation {
             ) {
                 val navigator =
                     koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+                val httpClient = koinInject<HttpClient>()
                 AuthScreen(
                     modifier = modifier,
-                    viewModel = koinViewModel(parameters = { parametersOf(navigator) })
+                    viewModel = koinViewModel(parameters = { parametersOf(navigator, httpClient) })
                 )
             }
             composable(route = registerRoute,
@@ -93,9 +95,10 @@ class AccountNavigationImpl : AccountNavigation {
             ) {
                 val navigator =
                     koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+                val httpClient = koinInject<HttpClient>()
                 RegisterScreen(
                     modifier = modifier,
-                    viewModel = koinViewModel(parameters = { parametersOf(navigator) })
+                    viewModel = koinViewModel(parameters = { parametersOf(navigator, httpClient) })
                 )
             }
         }

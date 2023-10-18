@@ -124,7 +124,12 @@ fun AuthScreen(
                     Text(text = "Зарегистрироваться")
                 }
 
-                Button(onClick = { }) {
+                Button(onClick = {
+                    viewModel.onAuthClick(
+                        state.value.loginText,
+                        state.value.passwordText
+                    )
+                }) {
                     Text(text = "Войти", modifier = Modifier.padding(horizontal = 24.dp))
                 }
             }

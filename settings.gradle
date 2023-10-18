@@ -13,9 +13,11 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "EventApp"
-include ':app'
-include ':feature'
+include(":app")
+include(":feature")
 include("core_navigation")
+include(":core_view")
+include(":core_data")
 
 //Account
 include(":feature:account")
@@ -36,4 +38,3 @@ include ':feature:event:impl'
 include(":feature:profile")
 include ':feature:profile:api'
 include ':feature:profile:impl'
-include ':core_view'

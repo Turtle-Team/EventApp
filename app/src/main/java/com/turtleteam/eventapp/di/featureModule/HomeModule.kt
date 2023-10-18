@@ -1,4 +1,4 @@
-package com.turtleteam.eventapp.di
+package com.turtleteam.eventapp.di.featureModule
 
 import com.turtleteam.api.navigation.HomeNavigation
 import com.turtleteam.impl.navigation.HomeNavigationImpl

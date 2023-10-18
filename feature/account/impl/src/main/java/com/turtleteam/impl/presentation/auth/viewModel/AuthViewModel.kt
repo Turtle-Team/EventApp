@@ -1,14 +1,19 @@
 package com.turtleteam.impl.presentation.auth.viewModel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.turtleteam.api.data.api.service.AccountService
 import com.turtleteam.impl.navigation.AccountNavigator
 import com.turtleteam.impl.presentation.auth.state.AuthState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val navigator: AccountNavigator
+    private val navigator: AccountNavigator,
+    private val accountService: AccountService
 ): ViewModel() {
 
     private val _state = MutableStateFlow(AuthState())
@@ -24,5 +29,11 @@ class AuthViewModel(
 
     fun navigateToRegister() {
         navigator.navigateToRegister()
+    }
+
+    fun onAuthClick(login: String, password: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            accountService.authUser(login, password)
+        }
     }
 }

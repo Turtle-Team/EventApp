@@ -1,6 +1,10 @@
-package com.turtleteam.eventapp.di
+package com.turtleteam.eventapp.di.featureModule
 
+import com.turtleteam.api.data.api.repository.AccountRepository
+import com.turtleteam.api.data.api.service.AccountService
 import com.turtleteam.api.navigation.AccountNavigation
+import com.turtleteam.impl.data.api.repository.AccountRepositoryImpl
+import com.turtleteam.impl.data.api.service.AccountServiceImpl
 import com.turtleteam.impl.navigation.AccountNavigationImpl
 import com.turtleteam.impl.navigation.AccountNavigator
 import com.turtleteam.impl.presentation.auth.viewModel.AuthViewModel
@@ -9,14 +13,19 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val accountModule = module {
+
     single<AccountNavigation> { AccountNavigationImpl() }
+    single<AccountRepository> { AccountRepositoryImpl(get()) }
+    single<AccountService> { AccountServiceImpl(get()) }
+
     factory { navController ->
         AccountNavigator(get(), navController.get())
     }
-    viewModel { navigator ->
-        AuthViewModel(navigator.get())
+
+    viewModel {params ->
+        AuthViewModel(params.get(), params.get())
     }
-    viewModel { navigator ->
-        RegisterViewModel(navigator.get())
+    viewModel { params ->
+        RegisterViewModel(params.get(), params.get())
     }
 }

@@ -1,10 +1,11 @@
 package com.turtleteam.eventapp
 
 import android.app.Application
-import com.turtleteam.eventapp.di.accountModule
-import com.turtleteam.eventapp.di.eventModule
-import com.turtleteam.eventapp.di.homeModule
-import com.turtleteam.eventapp.di.profileModule
+import com.turtleteam.eventapp.di.commonModule
+import com.turtleteam.eventapp.di.featureModule.accountModule
+import com.turtleteam.eventapp.di.featureModule.eventModule
+import com.turtleteam.eventapp.di.featureModule.homeModule
+import com.turtleteam.eventapp.di.featureModule.profileModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +17,7 @@ class EventApp : Application() {
         startKoin {
             androidContext(this@EventApp)
             androidLogger(Level.DEBUG)
-            modules(accountModule, homeModule, eventModule, profileModule)
+            modules(commonModule, accountModule, homeModule, eventModule, profileModule)
         }
     }
 }
