@@ -1,10 +1,7 @@
 package com.turtleteam.impl.navigation
 
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -59,12 +56,10 @@ class AccountNavigationImpl : AccountNavigation {
                     )
                 }
             ) {
-                val navigator =
-                    koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
-                val httpClient = koinInject<HttpClient>()
+                val navigator = koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
                 AuthScreen(
                     modifier = modifier,
-                    viewModel = koinViewModel(parameters = { parametersOf(navigator, httpClient) })
+                    viewModel = koinViewModel(parameters = { parametersOf(navigator) })
                 )
             }
             composable(route = registerRoute,
@@ -93,12 +88,10 @@ class AccountNavigationImpl : AccountNavigation {
                     )
                 }
             ) {
-                val navigator =
-                    koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
-                val httpClient = koinInject<HttpClient>()
+                val navigator = koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
                 RegisterScreen(
                     modifier = modifier,
-                    viewModel = koinViewModel(parameters = { parametersOf(navigator, httpClient) })
+                    viewModel = koinViewModel(parameters = { parametersOf(navigator) })
                 )
             }
         }

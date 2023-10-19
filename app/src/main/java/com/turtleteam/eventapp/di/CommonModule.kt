@@ -1,8 +1,8 @@
 package com.turtleteam.eventapp.di
 
-import com.turtleteam.core_network.BaseRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import kotlinx.serialization.json.Json
@@ -16,7 +16,7 @@ val commonModule = module {
         }
     }
     single {
-        HttpClient(get()) {
+        HttpClient(OkHttp) {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {

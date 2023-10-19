@@ -32,6 +32,7 @@ object Dependencies {
 
     object DI {
         val koin by lazy { "io.insert-koin:koin-androidx-compose:${Versions.DI.koin}" }
+        val koinAndroid by lazy { "io.insert-koin:koin-android:${Versions.DI.koin}" }
     }
 
     object Kotlin {
@@ -60,6 +61,8 @@ object Dependencies {
         val ktorLogging by lazy { "io.ktor:ktor-client-logging:${Versions.Network.ktor}" }
         val ktorContentNegotiation by lazy { "io.ktor:ktor-server-content-negotiation:${Versions.Network.ktor}" }
         val ktorJson by lazy { "io.ktor:ktor-serialization-kotlinx-json:${Versions.Network.ktor}" }
+        val ktorClient by lazy { "io.ktor:ktor-client-okhttp:2.2.2" }
+
     }
 
     object Test {

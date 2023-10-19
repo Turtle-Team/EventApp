@@ -1,5 +1,8 @@
 package com.turtleteam.core_network
 
+import com.turtleteam.core_network.error.AppError
+import com.turtleteam.core_network.error.Code
+import com.turtleteam.core_network.error.ServerException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -7,8 +10,10 @@ import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.appendPathSegments
 import io.ktor.utils.io.errors.IOException
+import java.lang.Error
 
 abstract class BaseRepository(private val httpClient: HttpClient) {
 
@@ -19,7 +24,7 @@ abstract class BaseRepository(private val httpClient: HttpClient) {
         headers: Map<String, String>? = null,
         body: String? = null
     ): String {
-        val url = ""
+        val url = "http://45.155.207.232:12222/api"
         val response: HttpResponse
         try {
             response = httpClient.request(url) {
@@ -38,8 +43,12 @@ abstract class BaseRepository(private val httpClient: HttpClient) {
         }
 
         if (response.status.value !in 200..299) {
-            throw Exception(response.status.description)
+            throw ServerException(response.status.value, response.status.description)
         }
+        if (response.status == HttpStatusCode.Conflict) {
+            throw AppError(code = Code.CONFLICT, description = "Already exists")
+        }
+
         return response.body()
     }
 }

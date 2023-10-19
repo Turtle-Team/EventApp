@@ -6,7 +6,7 @@ import com.turtleteam.core_network.BaseRepository
 import io.ktor.client.HttpClient
 import io.ktor.http.HttpMethod
 
-class AccountRepositoryImpl(private val httpClient: HttpClient) : AccountRepository,
+class AccountRepositoryImpl(httpClient: HttpClient) : AccountRepository,
     BaseRepository(httpClient) {
 
     override suspend fun registerUser(user: UserDTOReceive) {
@@ -18,23 +18,17 @@ class AccountRepositoryImpl(private val httpClient: HttpClient) : AccountReposit
             """.trimIndent()
         executeCall(
             type = HttpMethod.Post,
-            path = "/user/get",
+            path = "user/new",
+            headers = mapOf("Content-Type" to "application/json"),
             body = body
         )
     }
 
     override suspend fun authUser(login: String, password: String): String {
-        val body = """
-                {
-                  "login": "$login",
-                  "password": "$password"
-                }
-            """.trimIndent()
-        val response = executeCall(
+        return executeCall(
             type = HttpMethod.Get,
-            path = "/user/get",
-            body = body
+            path = "user/get",
+            headers = mapOf("Content-Type" to "application/json"),
         )
-        return response
     }
 }
