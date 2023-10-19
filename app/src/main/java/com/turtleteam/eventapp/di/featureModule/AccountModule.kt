@@ -9,6 +9,7 @@ import com.turtleteam.impl.navigation.AccountNavigationImpl
 import com.turtleteam.impl.navigation.AccountNavigator
 import com.turtleteam.impl.presentation.auth.viewModel.AuthViewModel
 import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
+import com.turtleteam.impl.presentation.welcome.viewModel.WelcomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -27,5 +28,8 @@ val accountModule = module {
     }
     viewModel { params ->
         RegisterViewModel(params.get(), get())
+    }
+    viewModel { params ->
+        WelcomeViewModel(params.get())
     }
 }

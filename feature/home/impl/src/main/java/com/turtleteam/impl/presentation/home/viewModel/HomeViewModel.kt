@@ -5,7 +5,7 @@ import com.turtleteam.impl.navigation.HomeNavigator
 
 class HomeViewModel(private val navigator: HomeNavigator) : ViewModel() {
 
-    fun navigateToAuth() {
-        navigator.navigateToAuth()
+    fun navigateToWelcome() {
+        navigator.navigateToWelcome()
     }
 }

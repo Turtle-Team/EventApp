@@ -59,7 +59,8 @@ import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    viewModel: RegisterViewModel) {
+    viewModel: RegisterViewModel
+) {
 
     val state = viewModel.state.collectAsState()
 
@@ -94,9 +95,12 @@ fun RegisterScreen(
         LazyColumn(
             Modifier
                 .fillMaxSize()
-                .background(Color.White)
-                /*.padding(top = )*/,
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = padding.calculateTopPadding()),
+                .background(Color.White),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = padding.calculateTopPadding()
+            ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
@@ -207,10 +211,12 @@ fun RegisterScreen(
                     }
 
                     Button(onClick = {
-                        viewModel.onRegisterClick(UserDTOReceive(
-                            login = state.value.loginText,
-                            password = state.value.passwordText
-                        ))
+                        viewModel.onRegisterClick(
+                            UserDTOReceive(
+                                login = state.value.loginText,
+                                password = state.value.passwordText
+                            )
+                        )
                     }) {
                         Text(text = "Далее", modifier = Modifier.padding(horizontal = 16.dp))
                     }

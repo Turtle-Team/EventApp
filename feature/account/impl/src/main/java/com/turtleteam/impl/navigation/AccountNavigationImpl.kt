@@ -10,7 +10,7 @@ import androidx.navigation.navigation
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.impl.presentation.auth.screen.AuthScreen
 import com.turtleteam.impl.presentation.register.screen.RegisterScreen
-import io.ktor.client.HttpClient
+import com.turtleteam.impl.presentation.welcome.screen.WelcomeScreen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
@@ -18,6 +18,7 @@ import org.koin.core.parameter.parametersOf
 class AccountNavigationImpl : AccountNavigation {
 
     override val baseRoute: String = "account"
+    private val welcomeRoute = "$baseRoute/welcome"
     private val authRoute = "$baseRoute/auth"
     private val registerRoute = "$baseRoute/register"
 
@@ -28,7 +29,41 @@ class AccountNavigationImpl : AccountNavigation {
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.navigation(startDestination = authRoute, route = baseRoute) {
+        navGraphBuilder.navigation(startDestination = welcomeRoute, route = baseRoute) {
+            composable(
+                route = welcomeRoute,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(animDuration)
+                    )
+                },
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(animDuration)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(animDuration)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(animDuration)
+                    )
+                }
+            ) {
+                val navigator =
+                    koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+                WelcomeScreen(
+                    modifier = modifier,
+                    viewModel = koinViewModel(parameters = { parametersOf(navigator) })
+                )
+            }
             composable(
                 route = authRoute,
                 enterTransition = {
@@ -56,7 +91,8 @@ class AccountNavigationImpl : AccountNavigation {
                     )
                 }
             ) {
-                val navigator = koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+                val navigator =
+                    koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
                 AuthScreen(
                     modifier = modifier,
                     viewModel = koinViewModel(parameters = { parametersOf(navigator) })
@@ -88,7 +124,8 @@ class AccountNavigationImpl : AccountNavigation {
                     )
                 }
             ) {
-                val navigator = koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+                val navigator =
+                    koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
                 RegisterScreen(
                     modifier = modifier,
                     viewModel = koinViewModel(parameters = { parametersOf(navigator) })

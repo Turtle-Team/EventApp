@@ -17,7 +17,7 @@ fun HomeScreen(
 
     TextButton(
         modifier = Modifier.fillMaxSize().then(modifier),
-        onClick = { viewModel.navigateToAuth() }) {
+        onClick = { viewModel.navigateToWelcome() }) {
         Text(text = "Авторизоваться")
     }
 }

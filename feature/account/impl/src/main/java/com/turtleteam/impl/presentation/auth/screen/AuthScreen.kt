@@ -3,11 +3,13 @@ package com.turtleteam.impl.presentation.auth.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -16,9 +18,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,6 +36,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -53,84 +58,101 @@ fun AuthScreen(
 
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     val focusManager = LocalFocusManager.current
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(Color.White)
+    Scaffold(
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
             .then(modifier),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        LargeTopAppBar(
-            title = { Text(text = "Авторизация") },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color(0xFFF3EDF7)
-            ),//TODO fix hardcode
-        )
-
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = state.value.loginText,
-                singleLine = true,
-                onValueChange = { viewModel.onLoginTextChanged(it) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                    imeAction = ImeAction.Next
-                ),
-                placeholder = { Text("Введите логин или почту") },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = state.value.passwordText,
-                visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
-                trailingIcon = {
-                    IconButton(onClick = { passwordHidden = !passwordHidden }) {
-                        val iconPainter =
-                            painterResource(id = if (passwordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
-                        Icon(painter = iconPainter, contentDescription = null)
+        topBar = {
+            LargeTopAppBar(
+                title = { Text(text = "Авторизация") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFFF3EDF7)
+                ),//TODO fix hardcode
+                navigationIcon = {
+                    IconButton(onClick = { viewModel.onBackButtonClick() }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_back),
+                            contentDescription = null
+                        )
                     }
                 },
-                singleLine = true,
-                onValueChange = { viewModel.onPasswordTextChanged(it) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(onDone = {
-                    focusManager.clearFocus()
-                }),
-                placeholder = { Text("Введите пароль") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp)
+                scrollBehavior = scrollBehavior
             )
+        }
+    ) { padding ->
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .background(Color.White),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = padding.calculateTopPadding()
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            item {
+                OutlinedTextField(
+                    value = state.value.loginText,
+                    singleLine = true,
+                    onValueChange = { viewModel.onLoginTextChanged(it) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    ),
+                    placeholder = { Text("Введите логин или почту") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp)
+                )
 
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 36.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TextButton(onClick = { viewModel.navigateToRegister() }) {
-                    Text(text = "Зарегистрироваться")
-                }
+                OutlinedTextField(
+                    value = state.value.passwordText,
+                    visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                    trailingIcon = {
+                        IconButton(onClick = { passwordHidden = !passwordHidden }) {
+                            val iconPainter =
+                                painterResource(id = if (passwordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
+                            Icon(painter = iconPainter, contentDescription = null)
+                        }
+                    },
+                    singleLine = true,
+                    onValueChange = { viewModel.onPasswordTextChanged(it) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                    }),
+                    placeholder = { Text("Введите пароль") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp)
+                )
 
-                Button(onClick = {
-                    viewModel.onAuthClick(
-                        state.value.loginText,
-                        state.value.passwordText
-                    )
-                }) {
-                    Text(text = "Войти", modifier = Modifier.padding(horizontal = 24.dp))
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 36.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextButton(onClick = { viewModel.navigateToRegister() }) {
+                        Text(text = "Зарегистрироваться")
+                    }
+
+                    Button(onClick = {
+                        viewModel.onAuthClick(
+                            state.value.loginText,
+                            state.value.passwordText
+                        )
+                    }) {
+                        Text(text = "Войти", modifier = Modifier.padding(horizontal = 24.dp))
+                    }
                 }
             }
         }

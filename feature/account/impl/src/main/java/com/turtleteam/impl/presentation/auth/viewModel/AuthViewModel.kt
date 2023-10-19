@@ -20,6 +20,10 @@ class AuthViewModel(
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
 
+    fun onBackButtonClick() {
+        navigator.onBackButtonClick()
+    }
+
     fun onLoginTextChanged(login: String) {
         _state.update { it.copy(loginText = login) }
     }
