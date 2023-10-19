@@ -38,3 +38,8 @@ include ':feature:event:impl'
 include(":feature:profile")
 include ':feature:profile:api'
 include ':feature:profile:impl'
+
+//Settings
+include(":feature:settings")
+include ':feature:settings:api'
+include ':feature:settings:impl'

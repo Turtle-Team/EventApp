@@ -20,7 +20,9 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.EventApp"
-            android:name="com.turtleteam.eventapp.MainActivity">
+            android:name="com.turtleteam.eventapp.MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -65,6 +65,9 @@ dependencies {
 
     implementation("androidx.compose.material:material:1.5.4")
 
+    implementation(project(":feature:settings:api"))
+    implementation(project(":feature:settings:impl"))
+
     implementation(Dependencies.Data.ktorClient)
     implementation(Dependencies.JetpackCompose.runtime)
     implementation(Dependencies.JetpackCompose.navigation)

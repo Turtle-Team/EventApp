@@ -24,7 +24,7 @@ object Versions {
         const val activityCompose = "1.5.3"
         const val material = "1.1.2"
         const val toolingPreview = "1.5.0-beta01"
-        const val navigation = "0.32.0"
+        const val navigation = "0.33.2-alpha"
     }
 }
 
