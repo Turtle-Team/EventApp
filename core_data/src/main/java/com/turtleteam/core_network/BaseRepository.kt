@@ -48,6 +48,9 @@ abstract class BaseRepository(private val httpClient: HttpClient) {
         if (response.status == HttpStatusCode.Conflict) {
             throw AppError(code = Code.CONFLICT, description = "Already exists")
         }
+        if (response.status == HttpStatusCode.Unauthorized) {
+            throw AppError(code = Code.UNAUTHORIZED, description = "User unauthorized")
+        }
 
         return response.body()
     }

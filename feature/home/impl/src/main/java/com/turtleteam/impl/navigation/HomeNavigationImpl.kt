@@ -17,13 +17,11 @@ class HomeNavigationImpl : HomeNavigation {
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
-        modifier: Modifier
     ) {
         navGraphBuilder.composable(route = baseRoute) {
             val navigator =
                 koinInject<HomeNavigator>(parameters = { parametersOf(navController) })
             HomeScreen(
-                modifier = modifier,
                 viewModel = koinViewModel(parameters = { parametersOf(navigator) })
             )
         }

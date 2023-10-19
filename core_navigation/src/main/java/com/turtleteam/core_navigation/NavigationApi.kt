@@ -8,6 +8,5 @@ interface NavigationApi {
     fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
-        modifier: Modifier
     )
 }

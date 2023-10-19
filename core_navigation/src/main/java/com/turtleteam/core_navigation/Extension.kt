@@ -7,11 +7,9 @@ import androidx.navigation.NavHostController
 fun NavGraphBuilder.register(
     featureApi: NavigationApi,
     navController: NavHostController,
-    modifier: Modifier = Modifier
 ) {
     featureApi.registerGraph(
         navGraphBuilder = this,
         navController = navController,
-        modifier = modifier
     )
 }

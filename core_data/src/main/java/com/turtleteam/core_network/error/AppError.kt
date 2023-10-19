@@ -9,5 +9,6 @@ data class AppError(
 
 enum class Code {
     CONFLICT,
-    INTERNAL_ERROR
+    INTERNAL_ERROR,
+    UNAUTHORIZED
 }

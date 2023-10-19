@@ -7,9 +7,10 @@ import androidx.compose.ui.Modifier
 import com.turtleteam.impl.presentation.event.viewModel.EventViewModel
 
 @Composable
-fun EventScreen(modifier: Modifier, viewModel: EventViewModel) {
+fun EventScreen(viewModel: EventViewModel) {
 
     Text(
-        modifier = Modifier.fillMaxSize().then(modifier),
-        text = "Event screen")
+        modifier = Modifier.fillMaxSize(),
+        text = "Event screen"
+    )
 }

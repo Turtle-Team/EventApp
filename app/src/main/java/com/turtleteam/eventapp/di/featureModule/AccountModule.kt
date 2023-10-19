@@ -27,7 +27,7 @@ val accountModule = module {
         AuthViewModel(params.get(), get())
     }
     viewModel { params ->
-        RegisterViewModel(params.get(), get())
+        RegisterViewModel(params.get(), get(), get())
     }
     viewModel { params ->
         WelcomeViewModel(params.get())

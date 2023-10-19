@@ -9,14 +9,13 @@ import com.turtleteam.impl.presentation.home.viewModel.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     viewModel: HomeViewModel
 ) {
 
     Text("Home Screen")
 
     TextButton(
-        modifier = Modifier.fillMaxSize().then(modifier),
+        modifier = Modifier.fillMaxSize(),
         onClick = { viewModel.navigateToWelcome() }) {
         Text(text = "Авторизоваться")
     }

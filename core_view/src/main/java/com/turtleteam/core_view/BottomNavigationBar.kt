@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -37,51 +38,40 @@ data class NavigationItem(
 
 @Composable
 fun BottomNavigationBar(
-    screen: @Composable (Dp) -> Unit,
     currentRoute: String?,
     routes: List<NavigationItem>,
     onClick: (route: String) -> Unit
 ) {
     var lastSelectedBtn by rememberSaveable { mutableStateOf(currentRoute) }
-    val density = LocalDensity.current
-    var bottombarheight by remember { mutableStateOf(0.dp) }
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-        NavigationBar(
-            modifier = Modifier.onGloballyPositioned {
-                bottombarheight = density.run { it.size.height.toDp() }
-            }
-        ) {
-            routes.forEach { item ->
-                NavigationBarItem(
-                    selected = lastSelectedBtn == item.route,
-                    label = {
-                        Text(
-                            stringResource(id = item.label),
-                            color = if (lastSelectedBtn == item.route) Color(0xFF1D192B) else Color(
-                                0xFF49454F
-                            )
+
+    NavigationBar {
+        routes.forEach { item ->
+            NavigationBarItem(
+                selected = lastSelectedBtn == item.route,
+                label = {
+                    Text(
+                        stringResource(id = item.label),
+                        color = if (lastSelectedBtn == item.route) Color(0xFF1D192B) else Color(
+                            0xFF49454F
                         )
-                    },
-                    onClick = {
-                        if (routes.map { it.route }.contains(currentRoute)) onClick(item.route)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = item.icon),
-                            contentDescription = "",
-                            tint = if (lastSelectedBtn == item.route) Color(0xFF1D192B) else Color(
-                                0xFF49454F
-                            ),
-                            modifier = Modifier.size(24.dp)
-                        )
-                    })
-            }
+                    )
+                },
+                onClick = {
+                    if (routes.map { it.route }.contains(currentRoute)) onClick(item.route)
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = item.icon),
+                        contentDescription = "",
+                        tint = if (lastSelectedBtn == item.route) Color(0xFF1D192B) else Color(
+                            0xFF49454F
+                        ),
+                        modifier = Modifier.size(24.dp)
+                    )
+                })
         }
-        screen(bottombarheight)
     }
+
     LaunchedEffect(key1 = currentRoute, block = {
         if (routes.map { it.route }.contains(currentRoute)) lastSelectedBtn = currentRoute
     })

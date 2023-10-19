@@ -1,8 +1,14 @@
 package com.turtleteam.eventapp.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,23 +17,33 @@ import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.EventNavigation
 import com.turtleteam.api.navigation.HomeNavigation
 import com.turtleteam.api.navigation.ProfileNavigation
+import com.turtleteam.core_navigation.ErrorService
 import com.turtleteam.core_navigation.register
 import com.turtleteam.core_view.BottomNavigationBar
 import com.turtleteam.core_view.NavigationItem
 import com.turtleteam.core_view.R
+import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.get
 import org.koin.compose.koinInject
 
+
 @Composable
-fun MainNavigationScreen(navController: NavHostController) {
+fun MainNavigationScreen(
+    navController: NavHostController,
+    errorService: ErrorService = get()
+) {
 
     val homeFeature: HomeNavigation = koinInject()
     val eventFeature: EventNavigation = koinInject()
     val profileFeature: ProfileNavigation = koinInject()
     val accountFeature: AccountNavigation = koinInject()
 
+    val scope = rememberCoroutineScope()
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val navigationItems = listOf(
+
+    val bottomNavigationItems = listOf(
         NavigationItem(
             route = homeFeature.baseRoute,
             label = R.string.bottom_navigation_view_home,
@@ -44,28 +60,45 @@ fun MainNavigationScreen(navController: NavHostController) {
             icon = R.drawable.ic_profile
         )
     )
-    BottomNavigationBar(
-        screen = {
-            NavHost(
-                navController = navController,
-                startDestination = homeFeature.baseRoute
-            ) {
-                register(homeFeature, navController, Modifier.padding(bottom = it))
-                register(eventFeature, navController, Modifier.padding(bottom = it))
-                register(profileFeature, navController, Modifier.padding(bottom = it))
-                register(accountFeature, navController, Modifier)
-            }
-        },
-        routes = navigationItems,
-        currentRoute = currentRoute,
-        onClick = {
-            navController.navigate(it) {
-                popUpTo(navController.graph.id) {
-                    saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true
+
+    LaunchedEffect(key1 = Unit) {
+        errorService.state.collectLatest {
+            scaffoldState.snackbarHostState.showSnackbar(it, actionLabel = "Закрыть")
+        }
+    }
+
+    Scaffold(
+        scaffoldState = scaffoldState,
+        bottomBar = {
+            val isMainScreen = bottomNavigationItems.any { it.route == currentRoute }
+            if (isMainScreen) {
+                BottomNavigationBar(
+                    routes = bottomNavigationItems,
+                    currentRoute = currentRoute,
+                    onClick = {
+                        navController.navigate(it) {
+                            popUpTo(navController.graph.id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                )
             }
         }
-    )
+    ) { paddingValues ->
+        NavHost(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            navController = navController,
+            startDestination = homeFeature.baseRoute
+        ) {
+            register(homeFeature, navController)
+            register(eventFeature, navController)
+            register(profileFeature, navController)
+            register(accountFeature, navController)
+        }
+    }
 }

@@ -62,6 +62,9 @@ dependencies {
     implementation(project(":feature:profile:api"))
     implementation(project(":feature:profile:impl"))
 
+
+    implementation("androidx.compose.material:material:1.5.4")
+
     implementation(Dependencies.Data.ktorClient)
     implementation(Dependencies.JetpackCompose.runtime)
     implementation(Dependencies.JetpackCompose.navigation)

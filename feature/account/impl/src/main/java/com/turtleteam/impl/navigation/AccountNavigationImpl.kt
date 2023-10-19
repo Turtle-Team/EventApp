@@ -27,7 +27,6 @@ class AccountNavigationImpl : AccountNavigation {
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
-        modifier: Modifier
     ) {
         navGraphBuilder.navigation(startDestination = welcomeRoute, route = baseRoute) {
             composable(
@@ -60,7 +59,6 @@ class AccountNavigationImpl : AccountNavigation {
                 val navigator =
                     koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
                 WelcomeScreen(
-                    modifier = modifier,
                     viewModel = koinViewModel(parameters = { parametersOf(navigator) })
                 )
             }
@@ -94,7 +92,6 @@ class AccountNavigationImpl : AccountNavigation {
                 val navigator =
                     koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
                 AuthScreen(
-                    modifier = modifier,
                     viewModel = koinViewModel(parameters = { parametersOf(navigator) })
                 )
             }
@@ -127,7 +124,6 @@ class AccountNavigationImpl : AccountNavigation {
                 val navigator =
                     koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
                 RegisterScreen(
-                    modifier = modifier,
                     viewModel = koinViewModel(parameters = { parametersOf(navigator) })
                 )
             }

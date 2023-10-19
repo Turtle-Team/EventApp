@@ -33,7 +33,6 @@ import com.turtleteam.impl.presentation.welcome.viewModel.WelcomeViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomeScreen(
-    modifier: Modifier,
     viewModel: WelcomeViewModel
 ) {
     val scrollBehavior =
