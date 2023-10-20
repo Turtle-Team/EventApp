@@ -2,13 +2,18 @@ package com.turtleteam.eventapp.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,6 +27,7 @@ import com.turtleteam.core_view.BottomNavigationBar
 import com.turtleteam.core_view.NavigationItem
 import com.turtleteam.core_view.R
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.compose.koinInject
 
@@ -81,13 +87,19 @@ fun MainNavigationScreen(
                     }
                 }
             )
+        },
+        snackbarHost = { snackbarHostStatet ->
+            SnackbarHost(snackbarHostStatet, Modifier.zIndex(2f)) {
+                Snackbar(modifier = Modifier.zIndex(2f), snackbarData = it)
+            }
         }
     ) { paddingValues ->
         val bottomNavigationViewModifier =
             Modifier.padding(bottom = paddingValues.calculateBottomPadding())
         NavHost(
             modifier = Modifier
-                .fillMaxSize(),//.zIndex(1f), //TODO раскомментировать!!!
+                .fillMaxSize()
+                .zIndex(1f),
             navController = navController,
             startDestination = homeFeature.baseRoute
         ) {
