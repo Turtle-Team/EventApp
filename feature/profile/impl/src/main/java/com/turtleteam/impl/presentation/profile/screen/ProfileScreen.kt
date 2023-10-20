@@ -8,11 +8,12 @@ import com.turtleteam.impl.presentation.profile.viewModel.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
+    modifier: Modifier = Modifier,
     viewModel: ProfileViewModel
 ) {
 
     Text(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().then(modifier),
         text = "Profile screen"
     )
 }

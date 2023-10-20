@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -38,7 +40,6 @@ fun MainNavigationScreen(
     val profileFeature: ProfileNavigation = koinInject()
     val accountFeature: AccountNavigation = koinInject()
 
-    val scope = rememberCoroutineScope()
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -71,33 +72,32 @@ fun MainNavigationScreen(
         scaffoldState = scaffoldState,
         bottomBar = {
             val isMainScreen = bottomNavigationItems.any { it.route == currentRoute }
-            if (isMainScreen) {
-                BottomNavigationBar(
-                    routes = bottomNavigationItems,
-                    currentRoute = currentRoute,
-                    onClick = {
-                        navController.navigate(it) {
-                            popUpTo(navController.graph.id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
+            BottomNavigationBar(
+                routes = bottomNavigationItems,
+                currentRoute = currentRoute,
+                onClick = {
+                    navController.navigate(it) {
+                        popUpTo(navController.graph.id) {
+                            saveState = true
                         }
+                        launchSingleTop = true
+                        restoreState = true
                     }
-                )
-            }
+                }
+            )
         }
     ) { paddingValues ->
+        val bottomNavigationViewModifier =
+            Modifier.padding(bottom = paddingValues.calculateBottomPadding())
         NavHost(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+                .fillMaxSize().zIndex(1f),
             navController = navController,
             startDestination = homeFeature.baseRoute
         ) {
-            register(homeFeature, navController)
-            register(eventFeature, navController)
-            register(profileFeature, navController)
+            register(homeFeature, navController, bottomNavigationViewModifier)
+            register(eventFeature, navController, bottomNavigationViewModifier)
+            register(profileFeature, navController, bottomNavigationViewModifier)
             register(accountFeature, navController)
         }
     }

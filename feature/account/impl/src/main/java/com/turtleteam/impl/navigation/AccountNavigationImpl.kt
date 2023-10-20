@@ -15,18 +15,21 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 
+internal const val accountGraph = "account"
+internal const val welcomeRoute = "$accountGraph/welcome"
+internal const val authRoute = "$accountGraph/auth"
+internal const val registerRoute = "$accountGraph/register"
+
 class AccountNavigationImpl : AccountNavigation {
 
-    override val baseRoute: String = "account"
-    private val welcomeRoute = "$baseRoute/welcome"
-    private val authRoute = "$baseRoute/auth"
-    private val registerRoute = "$baseRoute/register"
+    override val baseRoute: String = accountGraph
 
     private val animDuration = 500
 
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
+        modifier: Modifier
     ) {
         navGraphBuilder.navigation(startDestination = welcomeRoute, route = baseRoute) {
             composable(

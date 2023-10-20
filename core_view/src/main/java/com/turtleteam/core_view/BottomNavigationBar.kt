@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 
 
 data class NavigationItem(
@@ -44,7 +45,9 @@ fun BottomNavigationBar(
 ) {
     var lastSelectedBtn by rememberSaveable { mutableStateOf(currentRoute) }
 
-    NavigationBar {
+    NavigationBar(
+        modifier =Modifier.zIndex(0f)
+    ) {
         routes.forEach { item ->
             NavigationBarItem(
                 selected = lastSelectedBtn == item.route,

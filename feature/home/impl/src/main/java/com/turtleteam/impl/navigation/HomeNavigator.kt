@@ -5,14 +5,14 @@ import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.HomeNavigation
 
 class HomeNavigator (
-    private val homeNavigation: HomeNavigation,
-    private val accountNavigation: AccountNavigation,
+    homeNavigation: HomeNavigation,
+    accountNavigation: AccountNavigation,
     private val navController: NavController
 ) {
     private val baseRoute = homeNavigation.baseRoute
     private val accountRoute = accountNavigation.baseRoute
 
     fun navigateToWelcome() {
-        navController.navigate("$accountRoute/welcome")
+        navController.navigate(accountRoute)
     }
 }

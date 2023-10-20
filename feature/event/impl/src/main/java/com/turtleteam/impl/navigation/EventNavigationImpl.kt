@@ -17,11 +17,13 @@ class EventNavigationImpl : EventNavigation {
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController,
+        modifier: Modifier
     ) {
         navGraphBuilder.composable(route = baseRoute) {
             val navigator =
                 koinInject<EventNavigator>(parameters = { parametersOf(navController) })
             EventScreen(
+                modifier,
                 viewModel = koinViewModel(parameters = { parametersOf(navigator) })
             )
         }
