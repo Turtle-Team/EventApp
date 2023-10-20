@@ -62,8 +62,7 @@ fun AuthScreen(
 
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     var isError by remember { mutableStateOf(false) }
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
     LazyColumn(
         Modifier
@@ -146,17 +145,17 @@ fun AuthScreen(
                     Button(
                         modifier = Modifier.width(174.dp),
                         onClick = {
-                        focusManager.clearFocus()
-                        if (state.value.loginText == "" || state.value.passwordText == "") {
-                            isError = true
-                            scope.launch { errorService.showError("Зполните все поля") }
-                        } else {
-                            viewModel.onAuthClick(
-                                state.value.loginText,
-                                state.value.passwordText
-                            )
-                        }
-                    }) {
+                            focusManager.clearFocus()
+                            if (state.value.loginText == "" || state.value.passwordText == "") {
+                                isError = true
+                                scope.launch { errorService.showError("Зполните все поля") }
+                            } else {
+                                viewModel.onAuthClick(
+                                    state.value.loginText,
+                                    state.value.passwordText
+                                )
+                            }
+                        }) {
                         if (state.value.authLoadingState == LoadingState.Loading) {
                             CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)
                         } else {

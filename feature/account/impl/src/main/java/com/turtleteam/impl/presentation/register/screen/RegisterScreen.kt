@@ -33,6 +33,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,15 +49,19 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.api.data.api.model.UserDTOReceive
+import com.turtleteam.core_navigation.error.ErrorService
 import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.get
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    viewModel: RegisterViewModel
+    viewModel: RegisterViewModel,
+    errorService: ErrorService = get()
 ) {
 
     val state = viewModel.state.collectAsState()
@@ -65,8 +70,10 @@ fun RegisterScreen(
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     var checkedState by remember { mutableStateOf(false) }
     var isError by remember { mutableStateOf(false) }
+
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val scope = rememberCoroutineScope()
 
     LazyColumn(
         Modifier
@@ -103,6 +110,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     ),
+                    isError = isError,
                     placeholder = { Text("Введите логин") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -117,6 +125,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     ),
+                    isError = isError,
                     placeholder = { Text("Введите имя") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -131,6 +140,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     ),
+                    isError = isError,
                     placeholder = { Text("Введите фамилию") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -145,6 +155,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
                     ),
+                    isError = isError,
                     placeholder = { Text("Введите почту") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -167,6 +178,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Done
                     ),
+                    isError = isError,
                     keyboardActions = KeyboardActions(onDone = {
                         focusManager.clearFocus()
                     }),
@@ -204,14 +216,25 @@ fun RegisterScreen(
                     Button(
                         modifier = Modifier.width(114.dp),
                         onClick = {
-                        focusManager.clearFocus()
-                        viewModel.onRegisterClick(
-                            UserDTOReceive(
-                                login = state.value.loginText,
-                                password = state.value.passwordText
-                            )
-                        )
-                    }) {
+                            focusManager.clearFocus()
+                            if (
+                                state.value.loginText == "" ||
+                                state.value.firstNameText == "" ||
+                                state.value.lastNameText == "" ||
+                                state.value.emailText == "" ||
+                                state.value.passwordText == ""
+                            ) {
+                                isError = true
+                                scope.launch { errorService.showError("Зполните все поля") }
+                            } else {
+                                viewModel.onRegisterClick(
+                                    UserDTOReceive(
+                                        login = state.value.loginText,
+                                        password = state.value.passwordText
+                                    )
+                                )
+                            }
+                        }) {
                         if (state.value.registerLoadingState == LoadingState.Loading) {
                             CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)
                         } else {
