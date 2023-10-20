@@ -1,6 +1,6 @@
 package com.turtleteam.eventapp.di
 
-import com.turtleteam.core_navigation.ErrorService
+import com.turtleteam.core_navigation.error.ErrorService
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.engine.okhttp.*

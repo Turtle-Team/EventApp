@@ -40,9 +40,11 @@ android {
 dependencies {
 
     implementation(project(":feature:account:api"))
+    implementation(project(":feature:home:api"))
     implementation(project(Modules.core_navigation))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_data))
+    implementation(project(Modules.settings))
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.2")
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.2")

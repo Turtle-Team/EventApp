@@ -1,4 +1,4 @@
-package com.turtleteam.core_navigation
+package com.turtleteam.core_navigation.error
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

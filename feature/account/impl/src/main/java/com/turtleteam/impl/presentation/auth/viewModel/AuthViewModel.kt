@@ -1,9 +1,12 @@
 package com.turtleteam.impl.presentation.auth.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.turtleteam.api.Settings
 import com.turtleteam.api.data.api.service.AccountService
+import com.turtleteam.core_navigation.error.ErrorService
+import com.turtleteam.core_navigation.state.LoadingState
+import com.turtleteam.core_network.error.exceptionHandleable
 import com.turtleteam.impl.navigation.AccountNavigator
 import com.turtleteam.impl.presentation.auth.state.AuthState
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +17,9 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel(
     private val navigator: AccountNavigator,
-    private val accountService: AccountService
+    private val accountService: AccountService,
+    private val errorService: ErrorService,
+    private val settings: Settings
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AuthState())
@@ -38,12 +43,21 @@ class AuthViewModel(
 
     fun onAuthClick(login: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                accountService.authUser(login, password)
-            }
-                .onFailure {
-                    Log.e("ajdqwjdqwdjqoiwdj", it.toString())
+            exceptionHandleable(
+                executionBlock = {
+                    _state.update { it.copy(authLoadingState = LoadingState.Loading) }
+                    val token = accountService.authUser(login, password)
+                    settings.setToken(token)
+                    errorService.showError(settings.getToken().toString())
+                },
+                failureBlock = { throwable ->
+                    _state.update { it.copy(authLoadingState = LoadingState.Error(throwable.message.toString())) }
+                    errorService.showError("Неверный логин или пароль")
+                },
+                completionBlock = {
+                    _state.update { it.copy(authLoadingState = LoadingState.Success) }
                 }
+            )
         }
     }
 }

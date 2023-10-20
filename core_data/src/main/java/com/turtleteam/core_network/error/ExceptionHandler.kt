@@ -12,7 +12,6 @@ suspend fun exceptionHandleable(
     try {
         executionBlock()
     } catch (exception: Throwable) {
-
         when(exception.message) {
             Code.CONFLICT.name -> conflictBlock?.invoke(exception)
             Code.UNAUTHORIZED.name -> { unauthorizedBlock?.invoke(exception) }

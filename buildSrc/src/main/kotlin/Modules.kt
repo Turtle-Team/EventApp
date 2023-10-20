@@ -4,4 +4,5 @@ object Modules {
     const val core_view = ":core_view"
     const val core_data = ":core_data"
     const val feature = ":feature"
+    const val settings = ":feature:settings:api"
 }

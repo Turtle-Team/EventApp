@@ -1,5 +1,6 @@
 package com.turtleteam.impl.presentation.register.screen
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,11 +12,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,9 +48,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.api.data.api.model.UserDTOReceive
+import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
 
+@SuppressLint("UnrememberedMutableInteractionSource")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
@@ -54,10 +60,11 @@ fun RegisterScreen(
 ) {
 
     val state = viewModel.state.collectAsState()
+    val focusManager = LocalFocusManager.current
 
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     var checkedState by remember { mutableStateOf(false) }
-    val focusManager = LocalFocusManager.current
+    var isError by remember { mutableStateOf(false) }
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
@@ -194,7 +201,10 @@ fun RegisterScreen(
                         )
                     }
 
-                    Button(onClick = {
+                    Button(
+                        modifier = Modifier.width(114.dp),
+                        onClick = {
+                        focusManager.clearFocus()
                         viewModel.onRegisterClick(
                             UserDTOReceive(
                                 login = state.value.loginText,
@@ -202,7 +212,11 @@ fun RegisterScreen(
                             )
                         )
                     }) {
-                        Text(text = "Далее", modifier = Modifier.padding(horizontal = 16.dp))
+                        if (state.value.registerLoadingState == LoadingState.Loading) {
+                            CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)
+                        } else {
+                            Text(text = "Далее")
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.padding(top = 24.dp))

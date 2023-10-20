@@ -27,7 +27,8 @@ class AccountRepositoryImpl(httpClient: HttpClient) : AccountRepository,
     override suspend fun authUser(login: String, password: String): String {
         return executeCall(
             type = HttpMethod.Get,
-            path = "user/get",
+            path = "user/auth",
+            parameters = mapOf("login" to login, "password" to password),
             headers = mapOf("Content-Type" to "application/json"),
         )
     }

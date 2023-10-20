@@ -23,8 +23,8 @@ val accountModule = module {
         AccountNavigator(get(), navController.get())
     }
 
-    viewModel {params ->
-        AuthViewModel(params.get(), get())
+    viewModel { params ->
+        AuthViewModel(params.get(), get(), get(), get())
     }
     viewModel { params ->
         RegisterViewModel(params.get(), get(), get())

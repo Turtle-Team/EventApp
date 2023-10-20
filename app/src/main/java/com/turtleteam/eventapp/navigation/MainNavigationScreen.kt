@@ -5,13 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -19,8 +16,8 @@ import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.EventNavigation
 import com.turtleteam.api.navigation.HomeNavigation
 import com.turtleteam.api.navigation.ProfileNavigation
-import com.turtleteam.core_navigation.ErrorService
-import com.turtleteam.core_navigation.register
+import com.turtleteam.core_navigation.error.ErrorService
+import com.turtleteam.core_navigation.error.register
 import com.turtleteam.core_view.BottomNavigationBar
 import com.turtleteam.core_view.NavigationItem
 import com.turtleteam.core_view.R
@@ -71,7 +68,6 @@ fun MainNavigationScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            val isMainScreen = bottomNavigationItems.any { it.route == currentRoute }
             BottomNavigationBar(
                 routes = bottomNavigationItems,
                 currentRoute = currentRoute,
@@ -91,7 +87,7 @@ fun MainNavigationScreen(
             Modifier.padding(bottom = paddingValues.calculateBottomPadding())
         NavHost(
             modifier = Modifier
-                .fillMaxSize().zIndex(1f),
+                .fillMaxSize(),//.zIndex(1f), //TODO раскомментировать!!!
             navController = navController,
             startDestination = homeFeature.baseRoute
         ) {

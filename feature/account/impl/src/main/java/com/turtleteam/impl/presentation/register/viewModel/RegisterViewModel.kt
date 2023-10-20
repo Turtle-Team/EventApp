@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.turtleteam.api.data.api.model.UserDTOReceive
 import com.turtleteam.api.data.api.service.AccountService
-import com.turtleteam.core_navigation.ErrorService
+import com.turtleteam.core_navigation.error.ErrorService
+import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_network.error.exceptionHandleable
 import com.turtleteam.impl.navigation.AccountNavigator
 import com.turtleteam.impl.presentation.register.state.RegisterState
@@ -51,13 +52,18 @@ class RegisterViewModel(
         viewModelScope.launch(Dispatchers.IO) {
            exceptionHandleable(
                executionBlock = {
+                   _state.update { it.copy(registerLoadingState = LoadingState.Loading) }
                    accountService.registerUser(user)
                },
-               failureBlock = {
-                   errorService.showError(it.message.toString())
+               failureBlock = { throwable ->
+                   _state.update { it.copy(registerLoadingState = LoadingState.Error(throwable.message.toString())) }
+                   errorService.showError(throwable.message.toString())
                },
                conflictBlock = {
-                   errorService.showError("Пользователь с таким логином/почтой уже существует. Авторизуйтесь")
+                   errorService.showError("Пользователь с таким логином или почтой уже существует. Авторизуйтесь")
+               },
+               completionBlock = {
+                   _state.update { it.copy(registerLoadingState = LoadingState.Success) }
                }
            )
         }
